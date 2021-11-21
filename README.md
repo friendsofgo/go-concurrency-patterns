@@ -1,4 +1,4 @@
-#Go Concurrency Patterns
+# Go Concurrency Patterns
 
 Implementation examples for the most common concurrency patterns on Go.
 
