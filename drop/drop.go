@@ -15,10 +15,10 @@ func main() {
 	for i := 0; i < tasks; i++ {
 		select {
 		case processor <- "some data":
-			sent ++
+			sent++
 		default:
 			time.Sleep(100 * time.Millisecond)
-			dropped ++
+			dropped++
 		}
 	}
 	close(processor)
@@ -27,6 +27,7 @@ func main() {
 
 func process(ch chan string) {
 	go func() {
-		for range ch {}
+		for range ch {
+		}
 	}()
 }
