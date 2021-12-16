@@ -9,8 +9,12 @@ import (
 func main() {
 	workers := 1000
 	ch := make(chan string, workers)
+
+	concurrency := 100
+	sem := make(chan bool, concurrency)
+
 	for i := 0; i < workers; i++ {
-		go dataSource(ch, i)
+		go dataSource(ch, sem, i)
 	}
 
 	for {
@@ -25,9 +29,16 @@ func main() {
 	}
 }
 
-func dataSource(ch chan string, worker int) {
+func dataSource(ch chan string, sem chan bool, worker int) {
 	for {
+		// acquire
+		sem <- true
+
+		// do work
 		time.Sleep(time.Duration(rand.Intn(1e3)) * time.Millisecond)
 		ch <- fmt.Sprintf("<worker %d> processing data", worker)
+
+		// release
+		<-sem
 	}
 }
